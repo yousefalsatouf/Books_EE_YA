@@ -11,5 +11,8 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
     List<Author> findByLastname(String lastName);
     List<Author> findByEmail(String email);
     List<Author> findByDateOfBirth(Date dateOfBirth);
+
+    List<Author> findByFirstnameAndDateOfBirth(String firstname, Date dateOfBirth);
+
 }
 

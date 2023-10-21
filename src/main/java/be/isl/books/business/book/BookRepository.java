@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -16,11 +17,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByIsbn(String isbn);
     List<Book> findByPrice(Double price);
     List<Book> findByPublicationDate(Date publicationDate);
-    /*@Query("SELECT b FROM Book b " +
-            "JOIN b.bookAuthors ba " +
-            "JOIN ba.author a " +
-            "WHERE a.lastName = :authorLastName " +
-            "AND a.dateOfBirth = :authorDateOfBirth")
-    List<Book> findByAuthorLastnameAndAuthorDateOfBirth(String authorLastname, Date authorDateOfBirth);*/
+
+    List<Book> findByBookAuthors_Author_AuthorIdIn(Collection<Long> bookAuthors_author_authorId);
+
 }
 

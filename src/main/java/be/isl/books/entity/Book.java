@@ -1,6 +1,8 @@
 package be.isl.books.entity;
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Book")
@@ -37,9 +39,9 @@ public class Book {
     @Column(name = "updated_ts")
     private Date updatedTs;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    private Author author;
+    @OneToMany(mappedBy = "book")
+    private Set<BookAuthor> bookAuthors;
+
 
     public Long getBookId() {
         return bookId;
@@ -119,5 +121,6 @@ public class Book {
 
     public void setUpdatedTs(Date updatedTs) {
         this.updatedTs = updatedTs;
-    }}
+    }
 
+}

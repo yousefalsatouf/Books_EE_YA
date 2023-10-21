@@ -3,6 +3,7 @@ package be.isl.books.entity;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Author")
@@ -32,7 +33,7 @@ public class Author {
     private Date updatedTs;
 
     @OneToMany(mappedBy = "author")
-    private List<Book> books;
+    private Set<BookAuthor> bookAuthors;
 
     public Long getAuthorId() {
         return authorId;

@@ -1,19 +1,21 @@
 package be.isl.books.business.book;
 
+import be.isl.books.business.author.AuthorRepository;
 import be.isl.books.entity.Author;
 import be.isl.books.entity.Book;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
 
     private final BookRepository bookRepository;
+    @Autowired
+    private AuthorRepository authorRepository;
 
     @Autowired
     public BookService(BookRepository bookRepository) {
@@ -50,5 +52,18 @@ public class BookService {
 
     public void deleteBook(Long bookId) {
         bookRepository.deleteById(bookId);
+    }
+
+    public List<Book> findBooksByAuthorNameAndDateOfBirth(String authorName, Date dateOfBirth) {
+        List<Author> authors = authorRepository.findByFirstnameAndDateOfBirth(authorName, dateOfBirth);
+
+        if (authors.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // Extract author IDs
+        List<Long> authorIds = authors.stream().map(Author::getAuthorId).collect(Collectors.toList());
+
+        return bookRepository.findByBookAuthors_Author_AuthorIdIn(authorIds);
     }
 }

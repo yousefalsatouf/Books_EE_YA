@@ -2,6 +2,7 @@ package be.isl.books.ui;
 
 import be.isl.books.business.author.AuthorRepository;
 import be.isl.books.business.book.BookRepository;
+import be.isl.books.business.book.BookService;
 import be.isl.books.business.comment.CommentRepository;
 import be.isl.books.business.publisher.PublisherRepository;
 import be.isl.books.entity.Author;
@@ -29,6 +30,8 @@ public class SearchController {
     private CommentRepository commentRepository;
     @Autowired
     private PublisherRepository publisherRepository;
+    @Autowired
+    private BookService bookService;
 
     // Author //
     @GetMapping("/authors/firstName")
@@ -53,10 +56,11 @@ public class SearchController {
     public List<Book> searchBooksByprice(@RequestParam Double price) {return bookRepository.findByPrice(price);}
     @GetMapping("/books/publicationDate")
     public List<Book> searchBooksByPublicationDate(@RequestParam Date date) {return bookRepository.findByPublicationDate(date);}
-    /*@GetMapping("/books/authorAndDateOfBirth")
-    public List<Book> searchBooksByAuthorAndDateOfBirth(@RequestParam String authorLastname, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date authorDateOfBirth) {
-        return bookRepository.findByAuthorLastnameAndAuthorDateOfBirth(authorLastname, authorDateOfBirth);
-    }*/
+
+    @GetMapping("/booksByAuthor")
+    public List<Book> searchBooksByAuthorNameAndDateOfBirth(@RequestParam String authorName, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateOfBirth) {
+        return bookService.findBooksByAuthorNameAndDateOfBirth(authorName, dateOfBirth);
+    }
 
     // Comment //
     @GetMapping("/comments/comment")
