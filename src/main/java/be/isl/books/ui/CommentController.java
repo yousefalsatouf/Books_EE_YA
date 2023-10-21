@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public class CommentController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Comment>> getCommentById(@PathVariable Long id) {
         Optional<Comment> comment = commentService.getCommentById(id);
-        if (comment == null) {
+        if (comment.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(comment);
@@ -32,13 +33,21 @@ public class CommentController {
 
     @PostMapping
     public ResponseEntity<Comment> createComment(@RequestBody Comment comment) {
+        if (comment.getInsertedTs()==null){
+            comment.setInsertedTs(new Date());
+        }
+
         Comment savedComment = commentService.saveComment(comment);
         return ResponseEntity.created(URI.create("/comments/" + savedComment.getCommentId())).body(savedComment);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Comment> updateComment(@PathVariable Long id, @RequestBody Comment comment) {
-        Comment updatedComment = commentService.saveComment(comment);
+        if(comment.getUpdatedTs()==null){
+            comment.setUpdatedTs(new Date());
+        }
+
+        Comment updatedComment = commentService.updateCommentById(id, comment);
         if (updatedComment == null) {
             return ResponseEntity.notFound().build();
         }

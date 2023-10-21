@@ -1,12 +1,14 @@
 package be.isl.books.ui;
 
 import be.isl.books.business.publisher.PublisherService;
+import be.isl.books.entity.Author;
 import be.isl.books.entity.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,16 +34,27 @@ public class PublisherController {
 
     @PostMapping
     public ResponseEntity<Publisher> createPublisher(@RequestBody Publisher publisher) {
+        if(publisher.getInsertedTs()==null){
+            publisher.setInsertedTs(new Date());
+        }
+
         Publisher savedPublisher = publisherService.savePublisher(publisher);
+
         return ResponseEntity.created(URI.create("/publishers/" + savedPublisher.getPublisherId())).body(savedPublisher);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Publisher> updatePublisher(@PathVariable Long id, @RequestBody Publisher publisher) {
-        Publisher updatedPublisher = publisherService.savePublisher(publisher);
+        if(publisher.getUpdatedTs()==null){
+            publisher.setUpdatedTs(new Date());
+        }
+
+        Publisher updatedPublisher = publisherService.updatePublisherById(id, publisher);
+
         if (updatedPublisher == null) {
             return ResponseEntity.notFound().build();
         }
+
         return ResponseEntity.ok(updatedPublisher);
     }
 

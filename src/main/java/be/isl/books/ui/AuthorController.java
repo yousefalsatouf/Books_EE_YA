@@ -37,24 +37,21 @@ public class AuthorController {
 
     @PostMapping
     public ResponseEntity<Author> createAuthor(@RequestBody Author author) {
-        Author savedAuthor = authorService.saveAuthor(author);
-        // date insertion
-        if(savedAuthor.getInsertedTs()==null) {// createdAt
-            savedAuthor.setInsertedTs(new Date());
+        if(author.getInsertedTs()==null) {// createdAt
+            author.setInsertedTs(new Date());
         }
-
+        Author savedAuthor = authorService.saveAuthor(author);
         return ResponseEntity.created(URI.create("/authors/" + savedAuthor.getAuthorId())).body(savedAuthor);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Author> updateAuthor(@PathVariable Long id, @RequestBody Author author) {
+        if(author.getUpdatedTs()==null) {// updatedAt
+            author.setUpdatedTs(new Date());
+        }
         Author updatedAuthor = authorService.updateAuthorById(id, author);
         if (updatedAuthor == null) {
             return ResponseEntity.notFound().build();
-        }
-
-        if(updatedAuthor.getUpdatedTs()==null) {// updatedAt
-            updatedAuthor.setUpdatedTs(new Date());
         }
         return ResponseEntity.ok(updatedAuthor);
     }

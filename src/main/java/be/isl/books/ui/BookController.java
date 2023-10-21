@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public class BookController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Book>> getBookById(@PathVariable Long id) {
         Optional<Book> book = bookService.getBookById(id);
-        if (book == null) {
+        if (book.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(book);
@@ -32,13 +33,19 @@ public class BookController {
 
     @PostMapping
     public ResponseEntity<Book> createBook(@RequestBody Book book) {
+        if(book.getInsertedTs()==null){
+            book.setInsertedTs(new Date());
+        }
         Book savedBook = bookService.saveBook(book);
         return ResponseEntity.created(URI.create("/books/" + savedBook.getBookId())).body(savedBook);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
-        Book updatedBook = bookService.saveBook(book);
+        if(book.getUpdatedTs()==null) {// updatedAt
+            book.setUpdatedTs(new Date());
+        }
+        Book updatedBook = bookService.updateBookById(id, book);
         if (updatedBook == null) {
             return ResponseEntity.notFound().build();
         }

@@ -1,6 +1,8 @@
 package be.isl.books.business.publisher;
 
+import be.isl.books.entity.Comment;
 import be.isl.books.entity.Publisher;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,17 @@ public class PublisherService {
 
     public Publisher savePublisher(Publisher publisher) {
         return publisherRepository.save(publisher);
+    }
+
+    public Publisher updatePublisherById(Long publisherId, Publisher updatedPublisher) {
+        Publisher existingPublisher = publisherRepository.findById(publisherId)
+                .orElseThrow(() -> new EntityNotFoundException("Publisher with ID " + publisherId + " not found"));
+
+        existingPublisher.setName(updatedPublisher.getName());
+        existingPublisher.setUpdatedTs(updatedPublisher.getUpdatedTs());
+
+        // Save the updated author
+        return publisherRepository.save(existingPublisher);
     }
 
     public List<Publisher> getAllPublishers() {

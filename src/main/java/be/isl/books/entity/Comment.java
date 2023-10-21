@@ -60,7 +60,7 @@ public class Comment {
         this.stars = stars;
     }
 
-    public boolean isHide() {
+    public boolean getHide() {
         return hide;
     }
 
