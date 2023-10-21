@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,14 +38,23 @@ public class AuthorController {
     @PostMapping
     public ResponseEntity<Author> createAuthor(@RequestBody Author author) {
         Author savedAuthor = authorService.saveAuthor(author);
+        // date insertion
+        if(savedAuthor.getInsertedTs()==null) {// createdAt
+            savedAuthor.setInsertedTs(new Date());
+        }
+
         return ResponseEntity.created(URI.create("/authors/" + savedAuthor.getAuthorId())).body(savedAuthor);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Author> updateAuthor(@PathVariable Long id, @RequestBody Author author) {
-        Author updatedAuthor = authorService.saveAuthor(author);
+        Author updatedAuthor = authorService.updateAuthorById(id, author);
         if (updatedAuthor == null) {
             return ResponseEntity.notFound().build();
+        }
+
+        if(updatedAuthor.getUpdatedTs()==null) {// updatedAt
+            updatedAuthor.setUpdatedTs(new Date());
         }
         return ResponseEntity.ok(updatedAuthor);
     }
