@@ -28,6 +28,59 @@ public class Comment {
     @Column(name = "updated_ts")
     private Date updatedTs;
 
-    // Constructors, getters, and setters
-}
+    public Long getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
+
+    public Long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
+    }
+
+    public boolean isHide() {
+        return hide;
+    }
+
+    public void setHide(boolean hide) {
+        this.hide = hide;
+    }
+
+    public Date getInsertedTs() {
+        return insertedTs;
+    }
+
+    public void setInsertedTs(Date insertedTs) {
+        this.insertedTs = insertedTs;
+    }
+
+    public Date getUpdatedTs() {
+        return updatedTs;
+    }
+
+    public void setUpdatedTs(Date updatedTs) {
+        this.updatedTs = updatedTs;
+    }}
 

@@ -19,5 +19,34 @@ public class Publisher {
     @Column(name = "updated_ts")
     private Date updatedTs;
 
-    // Constructors, getters, and setters
-}
+    public Long getPublisherId() {
+        return publisherId;
+    }
+
+    public void setPublisherId(Long publisherId) {
+        this.publisherId = publisherId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getInsertedTs() {
+        return insertedTs;
+    }
+
+    public void setInsertedTs(Date insertedTs) {
+        this.insertedTs = insertedTs;
+    }
+
+    public Date getUpdatedTs() {
+        return updatedTs;
+    }
+
+    public void setUpdatedTs(Date updatedTs) {
+        this.updatedTs = updatedTs;
+    }}
