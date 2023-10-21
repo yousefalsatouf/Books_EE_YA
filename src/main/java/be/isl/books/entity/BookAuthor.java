@@ -19,6 +19,5 @@ public class BookAuthor {
     @Column(name = "updated_ts")
     private Date updatedTs;
 
-    // Constructors, getters, and setters
 }
 

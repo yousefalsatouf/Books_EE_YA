@@ -51,6 +51,4 @@ public class BookService {
     public void deleteBook(Long bookId) {
         bookRepository.deleteById(bookId);
     }
-
-    // Custom service methods can be defined here if needed
 }

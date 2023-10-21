@@ -1,24 +1,15 @@
 package be.isl.books.business.author;
 
 import be.isl.books.entity.Author;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;
 import java.util.List;
 
-public interface AuthorRepository extends CrudRepository<Author, Long> {
-    List<Author> findByFirstnameAndLastname(String firstname, String lastname);
-    List<Author> findByDateOfBirthBetween(Date startDate, Date endDate);
-
-   /* @Transactional
-    @Modifying
-    @Query("UPDATE Author a SET a.firstname = :newFirstName, a.lastname = :newLastName, a.email = :newEmail, a.dateOfBirth = :newDateOfBirth WHERE a.authorId = :authorId")
-    int updateAuthorById(
-            @Param("authorId") Long authorId,
-            @Param("newFirstName") String newFirstName,
-            @Param("newLastName") String newLastName,
-            @Param("newEmail") String newEmail,
-            @Param("newDateOfBirth") Date newDateOfBirth
-    );*/
+public interface AuthorRepository extends JpaRepository<Author, Long> {
+    List<Author> findByFirstname(String firstName);
+    List<Author> findByLastname(String lastName);
+    List<Author> findByEmail(String email);
+    List<Author> findByDateOfBirth(Date dateOfBirth);
 }
 

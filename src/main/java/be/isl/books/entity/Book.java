@@ -37,6 +37,10 @@ public class Book {
     @Column(name = "updated_ts")
     private Date updatedTs;
 
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Author author;
+
     public Long getBookId() {
         return bookId;
     }

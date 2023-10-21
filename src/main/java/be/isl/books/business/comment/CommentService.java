@@ -49,7 +49,5 @@ public class CommentService {
     public void deleteComment(Long commentId) {
         commentRepository.deleteById(commentId);
     }
-
-    // Custom service methods can be defined here if needed
 }
 

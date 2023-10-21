@@ -46,6 +46,5 @@ public class PublisherService {
         publisherRepository.deleteById(publisherId);
     }
 
-    // Custom service methods can be defined here if needed
 }
 
