@@ -57,6 +57,7 @@ public class SearchController {
     @GetMapping("/books/publicationDate")
     public List<Book> searchBooksByPublicationDate(@RequestParam Date date) {return bookRepository.findByPublicationDate(date);}
 
+    // NOT DONE YET
     @GetMapping("/booksByAuthor")
     public List<Book> searchBooksByAuthorNameAndDateOfBirth(@RequestParam String authorName, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateOfBirth) {
         return bookService.findBooksByAuthorNameAndDateOfBirth(authorName, dateOfBirth);
